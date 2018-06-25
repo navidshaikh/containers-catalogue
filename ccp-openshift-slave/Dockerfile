@@ -6,3 +6,4 @@ RUN yum install -y PyYAML docker epel-release && \
     npm install -g dockerfile_lint
 
 ADD scanning /opt/scanning
+VOLUME ["/opt/scanning"]
