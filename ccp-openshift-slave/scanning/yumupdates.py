@@ -28,9 +28,11 @@ def find_updates():
         return
 
     out = out.split("\n")
-    print ("RPM\t\tNew-Version")
+    print ("RPM\t\t\tNew-Version")
     for update in out:
-        print ("{}\t\t{}".format(out[0], out[1]))
+        # split each line separated by tabs
+        update = update.split()
+        print ("{}\t\t{}".format(update[0], update[1]))
 
 
 if __name__ == "__main__":
