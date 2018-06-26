@@ -172,12 +172,14 @@ class RPMVerify(object):
         """
         Prints the result
         """
+        print ("Scan for verifying installed RPMs:")
+
         if not result:
             print ("All the RPM installed libraries and "
                    "binaries are intact in image.")
             return
         for line in result:
-            print ("File: {}".format(line.get("filename")))
+            print ("\nFile: {}".format(line.get("filename")))
 
             # find out what all issues with file are
             file_issues_encoded = line["issue"].strip().replace(".", "")
