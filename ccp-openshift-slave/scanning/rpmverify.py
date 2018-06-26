@@ -39,6 +39,18 @@ FILTER_DIRS = [
     "/var", "/run", "/media", "/mnt", "/tmp", "/proc", "/sys", "/boot"
 ]
 
+file_issues_semantics = {
+    "S": "file Size differs",
+    "M": "Mode differs (includes permissions and file type)",
+    "5": "digest (formerly MD5 sum) differs",
+    "D": "Device major/minor number mismatch",
+    "L":  "readLink(2) path mismatch",
+    "U":  "User ownership differs",
+    "G":  "Group ownership differs",
+    "T":  "mTime differs",
+    "P":  "caPabilities differ"
+}
+
 
 class RPMVerify(object):
     """
@@ -153,10 +165,32 @@ class RPMVerify(object):
         # print "Issue found while running rpm -Va test: "
         # print error
         if not result:
-            return {}
-        return {"result": result}
+            return []
+        return result
+
+    def print_result(self, result):
+        """
+        Prints the result
+        """
+        if not result:
+            print ("All the RPM installed libraries and "
+                   "binaries are intact in image.")
+            return
+        for line in result:
+            print ("File: {}".format(line.get("filename")))
+            # get the issue semantics
+            file_issues = [line.get(each, each) for each in
+                           line["issue"].replace(".", "")]
+            print ("Issues:")
+            for issue in file_issues:
+                print ("- {}".format(issue))
+
+            print ("RPM info:")
+            for key, value in line.get("rpm", {}).iteritems():
+                print ("{}: {}".format(key, value))
 
 
 if __name__ == "__main__":
     rpmverify = RPMVerify()
-    print rpmverify.run()
+    result = rpmverify.run()
+    rpmverify.print_result(result)
