@@ -28,6 +28,7 @@ FILTER_PATHS = [
     "/usr/lib/udev/hwdb.d/60-keyboard.hwdb",
     "/usr/lib/udev/hwdb.d/70-mouse.hwdb",
     "/usr/lib/udev/hwdb.d/70-touchpad.hwdb",
+    "/usr/lib/udev/hwdb.d/60-evdev.hwdb",
 ]
 
 
@@ -191,7 +192,7 @@ class RPMVerify(object):
                 file_issues = [file_issues_semantics.get(each, each)
                                for each in file_issues_encoded]
 
-            print ("Issues:")
+            print ("Issue with file:")
             for issue in file_issues:
                 print ("- {}".format(issue))
 
