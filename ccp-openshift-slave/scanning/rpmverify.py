@@ -194,11 +194,11 @@ class RPMVerify(object):
 
             print ("Issue with file:")
             for issue in file_issues:
-                print ("- {}".format(issue))
+                print ("\t- {}".format(issue))
 
             print ("RPM info:")
             for key, value in line.get("rpm", {}).iteritems():
-                print ("{}: {}".format(key, value))
+                print ("\t{0: <10}: {1}".format(key, value))
 
 
 if __name__ == "__main__":
