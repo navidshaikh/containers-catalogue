@@ -48,7 +48,7 @@ file_issues_semantics = {
     "U":  "User ownership differs",
     "G":  "Group ownership differs",
     "T":  "mTime differs",
-    "P":  "caPabilities differ"
+    "P":  "caPabilities differ",
 }
 
 
@@ -178,9 +178,17 @@ class RPMVerify(object):
             return
         for line in result:
             print ("File: {}".format(line.get("filename")))
-            # get the issue semantics
-            file_issues = [line.get(each, each) for each in
-                           line["issue"].replace(".", "")]
+
+            # find out what all issues with file are
+            file_issues_encoded = line["issue"].strip().replace(".", "")
+
+            # handle the case of missing file separately
+            if file_issues_encoded == "missing":
+                file_issues = ["The file is missing."]
+            else:
+                file_issues = [file_issues_semantics.get(each, each)
+                               for each in file_issues_encoded]
+
             print ("Issues:")
             for issue in file_issues:
                 print ("- {}".format(issue))
